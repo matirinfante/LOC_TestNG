@@ -39,6 +39,14 @@ public class BasePage {
         }
     }
 
+    protected void waitForVisibility(WebElement element) {
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+        } catch (TimeoutException e) {
+            Assert.fail(e.getMessage());
+        }
+    }
+
     protected void waitEnabled(By locator) {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(locator));
@@ -61,10 +69,12 @@ public class BasePage {
     }
 
     public void click(By locator) {
+        waitForVisibility(locator);
         getElement(locator).click();
     }
 
     public void click(WebElement element) {
+        waitForVisibility(element);
         element.click();
     }
 
@@ -195,5 +205,9 @@ public class BasePage {
         }
         type(locator, "" + Keys.ENTER);
 
+    }
+
+    public String getHref(WebElement webElement) {
+        return webElement.getAttribute("href");
     }
 }
