@@ -25,7 +25,7 @@ public class locTest extends BaseTest {
         Assert.assertEquals(currentUrl, url);
     }
 
-    @Test(retryAnalyzer = Retry.class, timeOut = 2000, priority = 1)
+    @Test(retryAnalyzer = Retry.class, priority = 1)
     public void checkCarrousel() throws InterruptedException {
         homePage.nextSlide();
         String paginationSliderNumber = homePage.getPaginationSlideNumber();
@@ -53,11 +53,12 @@ public class locTest extends BaseTest {
         softAssert.assertTrue(sixthLink);
 
     }
-    @Test(priority = 2)
-    public void goToDigitalCollections(){
+
+    @Test(dependsOnMethods = {"checkHomeUrl", "checkCarrousel", "checkTopSearches"})
+    public void goToDigitalCollections() {
         homePage.goToDigitalCollections();
         String currentUrl = homePage.getUrl();
-        Assert.assertEquals(currentUrl,"https://www.loc.gov/collections/");
+        Assert.assertEquals(currentUrl, "https://www.loc.gov/collections/");
     }
 
 }
