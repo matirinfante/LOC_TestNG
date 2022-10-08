@@ -1,38 +1,37 @@
-package com.loc;
+package com.loc.test;
 
+import com.loc.HomePage;
+import com.loc.base.BaseTest;
+import com.loc.utils.Retry;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.time.Duration;
 
 public class locTest extends BaseTest {
     public String url = "https://www.loc.gov/";
     public HomePage homePage;
-    public DigitalCollectionsPage digitalCollectionsPage;
-    public SurveyPage surveyPage;
 
     @BeforeClass
     public void appSetup() {
+        System.out.println("I'm inside before Class");
         homePage = new HomePage(this.driver);
     }
 
-    @Test
+    @Test(groups = {"homepage"})
     public void checkHomeUrl() {
         homePage.launchSite(url);
         String currentUrl = homePage.getUrl();
         Assert.assertEquals(currentUrl, url);
     }
 
-    @Test(retryAnalyzer = Retry.class, priority = 1)
+    @Test(groups = {"homepage"}, retryAnalyzer = Retry.class, priority = 1)
     public void checkCarrousel() throws InterruptedException {
         homePage.nextSlide();
         String paginationSliderNumber = homePage.getPaginationSlideNumber();
         Assert.assertEquals(paginationSliderNumber, "4/4");
     }
 
-    @Test(priority = 1)
+    @Test(groups = {"homepage"}, priority = 1)
     public void checkTopSearches() {
         boolean firstLink = homePage.checkTopLink1();
         softAssert.assertTrue(firstLink);
@@ -54,7 +53,7 @@ public class locTest extends BaseTest {
 
     }
 
-    @Test(dependsOnMethods = {"checkHomeUrl", "checkCarrousel", "checkTopSearches"})
+    @Test(groups = {"homepage"}, dependsOnMethods = {"checkHomeUrl", "checkCarrousel", "checkTopSearches"})
     public void goToDigitalCollections() {
         homePage.goToDigitalCollections();
         String currentUrl = homePage.getUrl();

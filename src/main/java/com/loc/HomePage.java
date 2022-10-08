@@ -31,6 +31,9 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//a[contains(text(),'Digital Collections')]")
     WebElement pDigitalCollectionsLink;
 
+    @FindBy(xpath = "//li[@class='footer-social-link-survey']/a")
+    WebElement pTakeSurveyLink;
+
     public HomePage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this
@@ -87,6 +90,15 @@ public class HomePage extends BasePage {
     }
 
     public void goToDigitalCollections() {
-        click(pDigitalCollectionsLink);
+        click(pDigitalCollectionsLink
+        );
+    }
+
+    public void scrollToSurveyLink() {
+        scrollToElement(pTakeSurveyLink);
+    }
+
+    public void clickSurvey() {
+        click(pTakeSurveyLink);
     }
 }

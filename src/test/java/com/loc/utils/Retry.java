@@ -1,4 +1,4 @@
-package com.loc;
+package com.loc.utils;
 
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;

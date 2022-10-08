@@ -47,6 +47,14 @@ public class BasePage {
         }
     }
 
+    protected void waitForVisibility(List<WebElement> elements) {
+        try {
+            wait.until(ExpectedConditions.visibilityOfAllElements(elements));
+        } catch (TimeoutException e) {
+            Assert.fail(e.getMessage());
+        }
+    }
+
     protected void waitEnabled(By locator) {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(locator));
@@ -117,8 +125,20 @@ public class BasePage {
         getElement(locator).sendKeys(text);
     }
 
+    public void type(WebElement element, String text) {
+        element.sendKeys(text);
+    }
+
     public void typeKey(By locator, Keys key) {
         getElement(locator).sendKeys(key);
+    }
+
+    public void typeKey(WebElement element, Keys key) {
+        element.sendKeys(key);
+    }
+
+    public void clear(WebElement element) {
+        element.clear();
     }
 
     public void selectOption(By locator, int index) {
@@ -192,6 +212,14 @@ public class BasePage {
         }
     }
 
+    public void clickOnRadioByIndex(List<WebElement> elements, int index) {
+        elements.get(index - 1).click();
+    }
+
+    public boolean checkSelected(List<WebElement> elements, int index) {
+        return elements.get(index - 1).isSelected();
+    }
+
     public void clickByExecutor(WebElement element) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].click()", element);
@@ -209,5 +237,10 @@ public class BasePage {
 
     public String getHref(WebElement webElement) {
         return webElement.getAttribute("href");
+    }
+
+    public void scrollToElement(WebElement element) {
+        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
+        javascriptExecutor.executeScript("arguments[0].scrollIntoView(true);", element);
     }
 }

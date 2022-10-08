@@ -1,8 +1,27 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
-<suite name="Test-Suite" >
-    <test name="LOC" >
+<suite name="Test-Suite">
+    <listeners>
+        <listener class-name="com.loc.utils.Listener"/>
+    </listeners>
+    <parameter name="browser" value="firefox"/>
+    <test name="LOC">
+        <groups>
+            <dependencies>
+                <group name="digitalcollections" depends-on="homepage"/>
+                <group name="survey" depends-on="digitalcollections"/>
+            </dependencies>
+        </groups>
         <classes>
-            <class name="com.loc.locTest" />
+            <class name="com.loc.test.locTest">
+                <methods>
+                    <include name="checkHomeUrl"/>
+                    <include name="checkCarrousel"/>
+                    <include name="checkTopSearches"/>
+                    <include name="goToDigitalCollections"/>
+                </methods>
+            </class>
+            <class name="com.loc.test.digitalCollectionsTest"/>
+            <class name="com.loc.test.surveyTest"/>
         </classes>
     </test>
 </suite>
